@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Application Identity -->
+    <key>CFBundleName</key>
+    <string>Kliply</string>
+    
+    <key>CFBundleDisplayName</key>
+    <string>Kliply</string>
+    
+    <key>CFBundleIdentifier</key>
+    <string>com.Kliply.app</string>
+    
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    
+    <key>CFBundleExecutable</key>
+    <string>Kliply</string>
+    
+    <key>CFBundleIconFile</key>
+    <string>icon.icns</string>
+    
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    
+    <!-- System Requirements -->
+    <key>LSMinimumSystemVersion</key>
+    <string>10.15.0</string>
+    
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+    
+    <!-- UI Configuration -->
+    <key>LSUIElement</key>
+    <true/>
+    
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    
+    <key>NSRequiresAquaSystemAppearance</key>
+    <false/>
+    
+    <!-- Privacy Usage Descriptions -->
+    <key>NSAccessibilityUsageDescription</key>
+    <string>Kliply needs Accessibility permissions to register global keyboard shortcuts (Cmd+Shift+V) so you can quickly access your clipboard history from any application.</string>
+    
+    <!-- Copyright -->
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2026 Kliply Team</string>
+    
+    <!-- Document Types (none for this app) -->
+    <key>CFBundleDocumentTypes</key>
+    <array/>
+    
+    <!-- URL Types (none for this app) -->
+    <key>CFBundleURLTypes</key>
+    <array/>
+    
+    <!-- App Category -->
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.productivity</string>
+    
+    <!-- Supported Platforms -->
+    <key>CFBundleSupportedPlatforms</key>
+    <array>
+        <string>MacOSX</string>
+    </array>
+</dict>
+</plist>
