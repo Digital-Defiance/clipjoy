@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDisplayName</key>
+    <string>Kliply</string>
+    <key>CFBundleExecutable</key>
+    <string>Kliply</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.kliply.app</string>
+    <key>CFBundleName</key>
+    <string>Kliply</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleIconFile</key>
+    <string>Kliply</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2026 Kliply Contributors. All rights reserved.</string>
+    <key>NSAppleEventsUsageDescription</key>
+    <string>Kliply needs permission to send paste events to other applications.</string>
+    <key>NSSystemAdministrationUsageDescription</key>
+    <string>Kliply needs accessibility access to register global hotkeys and monitor clipboard changes.</string>
+</dict>
+</plist>

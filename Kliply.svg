@@ -1,0 +1,18 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="128" y="128" width="768" height="768" rx="170" fill="url(#bg_gradient)"/>
+  
+  <rect x="350" y="300" width="300" height="350" rx="20" fill="#9B51E0" fill-opacity="0.6" transform="rotate(-10 350 300)"/>
+  <rect x="420" y="320" width="300" height="350" rx="20" fill="#2D9CDB" fill-opacity="0.6" transform="rotate(5 420 320)"/>
+  
+  <rect x="312" y="250" width="400" height="500" rx="30" stroke="white" stroke-width="12" stroke-opacity="0.8"/>
+  <path d="M412 250H612V220C612 203.431 598.569 190 582 190H442C425.431 190 412 203.431 412 220V250Z" fill="white" fill-opacity="0.9"/>
+
+  <text x="512" y="620" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="240" fill="white" style="filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.3));">Kl</text>
+
+  <defs>
+    <linearGradient id="bg_gradient" x1="128" y1="128" x2="896" y2="896" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1A2980"/>
+      <stop offset="1" stop-color="#26D0CE"/>
+    </linearGradient>
+  </defs>
+</svg>

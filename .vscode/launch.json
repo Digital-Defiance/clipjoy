@@ -1,0 +1,44 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:kliply}",
+            "name": "Debug kliply",
+            "target": "kliply",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug kliply"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:kliply}",
+            "name": "Release kliply",
+            "target": "kliply",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release kliply"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:kliply}",
+            "name": "Debug Kliply",
+            "target": "Kliply",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Kliply"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:kliply}",
+            "name": "Release Kliply",
+            "target": "Kliply",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Kliply"
+        }
+    ]
+}
