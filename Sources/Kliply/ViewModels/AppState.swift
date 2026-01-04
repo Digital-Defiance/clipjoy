@@ -210,9 +210,9 @@ class AppState {
         isPopupVisible = false
         print("Popup closed, will paste: \(shouldPaste)")
         
-        // Wait for popup window to fully close, then paste
+        // Wait longer for popup window to fully close and deactivate, then paste
         if shouldPaste {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
                 self?.simulatePaste()
             }
         } else {
@@ -246,31 +246,27 @@ class AppState {
             // Use activate with options to ensure proper activation
             prevApp.activate(options: [.activateIgnoringOtherApps])
             
-            // Wait longer for activation and window focus, then paste
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            // Wait longer for activation and window focus, then paste using CGEvent
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                 print("simulatePaste: Executing paste command")
                 
                 // Verify the app is actually active
                 let currentFrontmost = NSWorkspace.shared.frontmostApplication
                 print("simulatePaste: Current frontmost app: \(currentFrontmost?.localizedName ?? "nil")")
                 
-                let script = """
-                tell application "System Events"
-                    keystroke "v" using command down
-                end tell
-                """
+                // Use CGEvent to simulate Cmd+V (more reliable than AppleScript)
+                let source = CGEventSource(stateID: .hidSystemState)
                 
-                if let appleScript = NSAppleScript(source: script) {
-                    var error: NSDictionary?
-                    _ = appleScript.executeAndReturnError(&error)
-                    if let error = error {
-                        print("Failed to simulate paste: \(error)")
-                    } else {
-                        print("Paste command sent successfully")
-                    }
-                } else {
-                    print("Failed to create AppleScript")
-                }
+                // Key code 0x09 is 'V'
+                let keyVDown = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: true)
+                keyVDown?.flags = .maskCommand
+                keyVDown?.post(tap: .cghidEventTap)
+                
+                let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: false)
+                keyVUp?.flags = .maskCommand
+                keyVUp?.post(tap: .cghidEventTap)
+                
+                print("Paste command sent via CGEvent")
                 
                 // Reset pasting flag
                 self?.isPasting = false
