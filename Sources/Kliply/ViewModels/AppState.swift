@@ -108,8 +108,14 @@ class AppState {
                 print("Frontmost bundle: \(frontmost?.bundleIdentifier ?? "nil")")
                 print("Our bundle: \(Bundle.main.bundleIdentifier ?? "nil")")
                 
-                self.previousApp = frontmost
-                print("Stored previous app: \(self.previousApp?.localizedName ?? "nil")")
+                // Only store if it's not Kliply itself
+                if let frontmost = frontmost, frontmost.bundleIdentifier != Bundle.main.bundleIdentifier {
+                    self.previousApp = frontmost
+                    print("Stored previous app: \(self.previousApp?.localizedName ?? "nil")")
+                } else {
+                    print("Frontmost app is Kliply or nil, keeping previous: \(self.previousApp?.localizedName ?? "nil")")
+                }
+                
                 self.togglePopup()
             }
         }
@@ -204,9 +210,9 @@ class AppState {
         isPopupVisible = false
         print("Popup closed, will paste: \(shouldPaste)")
         
-        // Wait for popup to close, then paste
+        // Wait for popup window to fully close, then paste
         if shouldPaste {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
                 self?.simulatePaste()
             }
         } else {
@@ -235,12 +241,19 @@ class AppState {
         
         // If we have a previous app, activate it first
         if let prevApp = previousApp {
-            print("simulatePaste: Activating \(prevApp.localizedName ?? "unknown")")
-            prevApp.activate(options: [])
+            print("simulatePaste: Activating \(prevApp.localizedName ?? "unknown") (bundle: \(prevApp.bundleIdentifier ?? "nil"))")
             
-            // Wait for activation, then paste
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [weak self] in
+            // Use activate with options to ensure proper activation
+            prevApp.activate(options: [.activateIgnoringOtherApps])
+            
+            // Wait longer for activation and window focus, then paste
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
                 print("simulatePaste: Executing paste command")
+                
+                // Verify the app is actually active
+                let currentFrontmost = NSWorkspace.shared.frontmostApplication
+                print("simulatePaste: Current frontmost app: \(currentFrontmost?.localizedName ?? "nil")")
+                
                 let script = """
                 tell application "System Events"
                     keystroke "v" using command down

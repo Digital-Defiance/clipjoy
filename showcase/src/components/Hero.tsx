@@ -75,12 +75,12 @@ const Hero = ({ scrollY }: HeroProps) => {
           transition={{ delay: 0.9, duration: 0.8 }}
         >
           <a
-            href="https://github.com/Digital-Defiance/Kliply/releases/tag/v1.0.4"
+            href="https://github.com/Digital-Defiance/Kliply/releases/tag/v1.0.5"
             className="btn btn-primary"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Download v1.0.4
+            Download v1.0.5
           </a>
           <a
             href="https://github.com/Digital-Defiance/Kliply"

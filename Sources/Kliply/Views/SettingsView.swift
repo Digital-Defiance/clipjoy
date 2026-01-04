@@ -153,7 +153,7 @@ struct AboutView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            Text("Version 1.0.4")
+            Text("Version 1.0.5")
                 .foregroundStyle(.secondary)
             
             Divider()

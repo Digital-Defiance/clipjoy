@@ -50,7 +50,6 @@ For distributing through the Mac App Store.
 ```bash
 export APPLE_ID="your@email.com"
 export APPLE_TEAM_ID="XXXXXXXXXX"  # Find at developer.apple.com/account
-export TEAM_ID="XXXXXXXXXX"        # Same as APPLE_TEAM_ID (for App Store builds)
 ```
 
 ### 5. Store Notarization Credentials
@@ -73,7 +72,7 @@ This runs all steps automatically and creates `build/Kliply.dmg`.
 
 ### Option 2: Build for Mac App Store
 ```bash
-export TEAM_ID="YOUR_TEAM_ID"
+export APPLE_TEAM_ID="YOUR_TEAM_ID"
 ./scripts/5-build-for-app-store.sh
 ```
 

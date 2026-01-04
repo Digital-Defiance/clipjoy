@@ -56,7 +56,7 @@ Repeat the above process but select "Mac Installer Distribution" instead.
 
 ```bash
 # Find your Team ID at https://developer.apple.com/account
-export TEAM_ID="YOUR_TEAM_ID_HERE"
+export APPLE_TEAM_ID="YOUR_TEAM_ID_HERE"
 
 # Optional: Customize signing identity (default works for most)
 export SIGNING_IDENTITY="3rd Party Mac Developer Application"
@@ -64,7 +64,7 @@ export SIGNING_IDENTITY="3rd Party Mac Developer Application"
 
 Add to your `~/.zshrc` to make permanent:
 ```bash
-echo 'export TEAM_ID="YOUR_TEAM_ID_HERE"' >> ~/.zshrc
+echo 'export APPLE_TEAM_ID="YOUR_TEAM_ID_HERE"' >> ~/.zshrc
 source ~/.zshrc
 ```
 

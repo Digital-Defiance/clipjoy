@@ -25,9 +25,9 @@ ARCHIVE_PATH="$BUILD_DIR/${APP_NAME}.xcarchive"
 EXPORT_PATH="$BUILD_DIR/export"
 
 # Check for required environment variables
-if [ -z "$TEAM_ID" ]; then
-    echo -e "${RED}Error: TEAM_ID environment variable not set${NC}"
-    echo "Set it with: export TEAM_ID='YOUR_TEAM_ID'"
+if [ -z "$APPLE_TEAM_ID" ]; then
+    echo -e "${RED}Error: APPLE_TEAM_ID environment variable not set${NC}"
+    echo "Set it with: export APPLE_TEAM_ID='YOUR_TEAM_ID'"
     echo "Find your Team ID at: https://developer.apple.com/account"
     exit 1
 fi
@@ -128,7 +128,7 @@ xcodebuild -project "$XCODE_PROJECT" \
     archive \
     CODE_SIGN_IDENTITY="$APP_CERT_NAME" \
     CODE_SIGN_STYLE=Manual \
-    DEVELOPMENT_TEAM="$TEAM_ID" \
+    DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
     | grep -E "(Signing Identity|ARCHIVE SUCCEEDED|ARCHIVE FAILED|error:|warning:)" || true
 
 # Verify archive was created
@@ -172,7 +172,7 @@ cat > "$BUILD_DIR/ExportOptions.plist" << EOF
     <key>signingStyle</key>
     <string>manual</string>
     <key>teamID</key>
-    <string>${TEAM_ID}</string>
+    <string>${APPLE_TEAM_ID}</string>
     <key>uploadSymbols</key>
     <true/>
     <key>signingCertificate</key>
