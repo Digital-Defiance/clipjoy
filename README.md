@@ -20,11 +20,42 @@ A powerful clipboard manager for macOS, inspired by Windows' Win+V clipboard his
 - 🎯 **Smart Paste**: Automatically pastes back to the previously focused app
 - 🛡️ **Exclusion List**: Auto-detect and exclude password managers (1Password, LastPass, etc.) and sensitive apps
 
+## Changelog
+
+- **v1.0.7**
+  - Settings window now floats above other apps/spaces (including fullscreen) for reliable access
+  - Improved Exclusions tab: auto-detects password managers/sensitive apps and keeps them out of history
+  - Stability tweaks to popup timing and paste reliability
+
+- **v1.0.6**
+  - Added app exclusions to keep password managers and sensitive apps out of clipboard history
+
+- **v1.0.5**
+  - Improved paste reliability: longer popup-close delay and app activation timing
+  - Switched paste simulation to CGEvent for more dependable Cmd+V
+  - Minor script/docs/version updates
+
+- **v1.0.4**
+  - Version bump and small copy/layout tweaks (Docs/Settings/Hero)
+
+- **v1.0.3**
+  - Added launch-at-login support via LoginItemManager and Settings toggle
+  - Added unit tests and UI polish
+  - Version bump
+
+- **v1.0.1**
+  - App Store prep: signing/entitlements, App Store build scripts
+  - Added Privacy Policy and App Store guide
+  - Added React/Vite showcase site and Pages deploy workflow
+
+- **v1.0.0**
+  - Initial release
+
 ## Installation
 
 ### Download Release (Recommended)
 
-**[Download Kliply v1.0.6](https://github.com/Digital-Defiance/Kliply/releases/tag/v1.0.6)**
+**[Download Kliply v1.0.7](https://github.com/Digital-Defiance/Kliply/releases/tag/v1.0.7)**
 
 The release includes a signed and notarized DMG for easy installation:
 

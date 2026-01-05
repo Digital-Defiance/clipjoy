@@ -1,8 +1,10 @@
 import SwiftUI
+import AppKit
 
 struct SettingsView: View {
     @Environment(AppSettings.self) private var settings
     @Environment(\.dismiss) private var dismiss
+    @State private var windowMonitor: NSObjectProtocol?
     
     var body: some View {
         TabView {
@@ -27,6 +29,48 @@ struct SettingsView: View {
                 }
         }
         .frame(width: 500, height: 500)
+        .onAppear {
+            bringWindowToFront()
+            setupWindowMonitoring()
+        }
+        .onDisappear {
+            removeWindowMonitoring()
+        }
+    }
+    
+    private func bringWindowToFront() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // Activate the app to bring it to foreground
+            NSApp.activate(ignoringOtherApps: true)
+            
+            if let window = NSApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+                window.level = .floating
+                window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+                window.makeKeyAndOrderFront(nil)
+            }
+        }
+    }
+    
+    private func setupWindowMonitoring() {
+        // Monitor when the window becomes key (focused) again
+        windowMonitor = NotificationCenter.default.addObserver(
+            forName: NSWindow.didBecomeKeyNotification,
+            object: nil,
+            queue: .main
+        ) { [self] notification in
+            guard let window = notification.object as? NSWindow else { return }
+            
+            // Check if this is a Settings window
+            if window.title.contains("Settings") || window.isKeyWindow {
+                self.bringWindowToFront()
+            }
+        }
+    }
+    
+    private func removeWindowMonitoring() {
+        if let monitor = windowMonitor {
+            NotificationCenter.default.removeObserver(monitor)
+        }
     }
 }
 
@@ -301,7 +345,7 @@ struct AboutView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            Text("Version 1.0.6")
+            Text("Version 1.0.7")
                 .foregroundStyle(.secondary)
             
             Divider()

@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 
 @main
 struct KliplyApp: App {
@@ -15,7 +16,7 @@ struct KliplyApp: App {
         }
         .menuBarExtraStyle(.menu)
         
-        // Settings window
+        // Settings window - use AppDelegate to set window level on older macOS
         Settings {
             SettingsView()
                 .environment(settings)
@@ -25,6 +26,7 @@ struct KliplyApp: App {
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     var popupWindow: NSWindow?
+    private var windowLevelTimer: Timer?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Start the app state
@@ -37,6 +39,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Monitor for popup visibility changes
         setupPopupMonitoring()
+        
+        // Monitor all windows to set proper level for settings
+        setupWindowLevelMonitoring()
     }
     
     func applicationWillTerminate(_ notification: Notification) {
@@ -54,6 +59,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     self.showPopup()
                 } else if !shouldShow && self.popupWindow != nil {
                     self.hidePopup()
+                }
+            }
+        }
+    }
+    
+    private func setupWindowLevelMonitoring() {
+        windowLevelTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            
+            Task { @MainActor in
+                // Find and update all Settings windows
+                for window in NSApplication.shared.windows {
+                    // Check if this is a Settings window by looking for typical settings window characteristics
+                    if window.title.contains("Settings") || window.title.contains("Preferences") {
+                        if window.level != .floating {
+                            window.level = .floating
+                        }
+                    }
                 }
             }
         }
