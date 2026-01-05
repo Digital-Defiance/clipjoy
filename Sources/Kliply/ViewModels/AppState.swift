@@ -8,7 +8,7 @@ class AppState {
     static let shared = AppState()
     
     // Services
-    private let clipboardMonitor = ClipboardMonitor()
+    private let clipboardMonitor: ClipboardMonitor
     private let hotkeyManager = HotkeyManager()
     private let settings = AppSettings.shared
     
@@ -22,6 +22,12 @@ class AppState {
     var showSettings: Bool = false
     private var previousApp: NSRunningApplication?
     private var isPasting: Bool = false
+    
+    init() {
+        self.clipboardMonitor = ClipboardMonitor(appSettings: settings)
+        setupClipboardMonitor()
+        setupHotkeyManager()
+    }
     
     // Computed
     var filteredHistory: [ClipboardItem] {
@@ -58,11 +64,6 @@ class AppState {
         }
         
         return items
-    }
-    
-    private init() {
-        setupClipboardMonitor()
-        setupHotkeyManager()
     }
     
     func start() {

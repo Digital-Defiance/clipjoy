@@ -8,11 +8,13 @@ class ClipboardMonitor {
     private var timer: Timer?
     private var lastChangeCount: Int = 0
     private let pasteboard = NSPasteboard.general
+    private weak var appSettings: AppSettings?
     
     var onClipboardChange: ((ClipboardContent?) -> Void)?
     
-    init() {
+    init(appSettings: AppSettings? = nil) {
         lastChangeCount = pasteboard.changeCount
+        self.appSettings = appSettings ?? AppSettings.shared
     }
     
     func startMonitoring() {
@@ -32,8 +34,32 @@ class ClipboardMonitor {
         guard pasteboard.changeCount != lastChangeCount else { return }
         lastChangeCount = pasteboard.changeCount
         
+        // Check if the frontmost app is excluded
+        if isFrontmostAppExcluded() {
+            return
+        }
+        
         let content = readClipboardContent()
         onClipboardChange?(content)
+    }
+    
+    private func isFrontmostAppExcluded() -> Bool {
+        guard let appSettings = appSettings else { return false }
+        
+        let workspace = NSWorkspace.shared
+        guard let frontmostApp = workspace.frontmostApplication else { return false }
+        
+        let bundleIdentifier = frontmostApp.bundleIdentifier ?? ""
+        let appName = frontmostApp.localizedName ?? ""
+        
+        // Check if either bundle ID or app name matches an excluded app
+        return appSettings.excludedApps.contains { excludedApp in
+            let excluded = excludedApp.lowercased()
+            return bundleIdentifier.lowercased().contains(excluded) ||
+                   excluded.contains(bundleIdentifier.lowercased()) ||
+                   appName.lowercased().contains(excluded) ||
+                   excluded.contains(appName.lowercased())
+        }
     }
     
     func readClipboardContent() -> ClipboardContent? {

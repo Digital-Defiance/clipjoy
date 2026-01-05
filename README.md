@@ -18,12 +18,13 @@ A powerful clipboard manager for macOS, inspired by Windows' Win+V clipboard his
 - 🔒 **Privacy-Focused**: All history stored in memory only, no disk writes
 - ⚡ **Lightning Fast**: Event-driven architecture for instant response
 - 🎯 **Smart Paste**: Automatically pastes back to the previously focused app
+- 🛡️ **Exclusion List**: Auto-detect and exclude password managers (1Password, LastPass, etc.) and sensitive apps
 
 ## Installation
 
 ### Download Release (Recommended)
 
-**[Download Kliply v1.0.5](https://github.com/Digital-Defiance/Kliply/releases/tag/v1.0.5)**
+**[Download Kliply v1.0.6](https://github.com/Digital-Defiance/Kliply/releases/tag/v1.0.6)**
 
 The release includes a signed and notarized DMG for easy installation:
 
@@ -95,6 +96,11 @@ Access settings via the menu bar icon:
 - **Hotkey**: Customize the global keyboard shortcut
 - **Paste Behavior**: Always paste as plain text option
 - **Preview Options**: Toggle image previews
+- **Exclusions**: Manage apps to exclude from clipboard monitoring
+  - Auto-detect password managers (1Password, LastPass, Dashlane, Bitwarden, etc.)
+  - Auto-detect sensitive apps (browsers, authenticators, dev tools)
+  - Manually add or remove apps by name or bundle ID
+  - Clipboard changes from excluded apps are never recorded
 
 ## System Requirements
 
@@ -144,7 +150,7 @@ swift run
 - [ ] App Store submission
 - [ ] Launch at login option
 - [ ] Automatic updates via Sparkle
-- [ ] App exclude list (ignore clipboard from certain apps)
+- [x] App exclude list (ignore clipboard from certain apps) - ✅ Implemented!
 - [ ] Enhanced VoiceOver support
 - [ ] Localization (multiple languages)
 - [ ] Export/import history

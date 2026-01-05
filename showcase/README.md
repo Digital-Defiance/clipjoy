@@ -1,6 +1,6 @@
-# AI Capabilities Suite Showcase
+# Kliply Showcase Website
 
-This is the GitHub Pages showcase site for the AI Capabilities Suite, built with React, TypeScript, and Vite.
+This is the GitHub Pages showcase site for Kliply, a powerful clipboard manager for macOS, built with React, TypeScript, and Vite.
 
 ## Development
 

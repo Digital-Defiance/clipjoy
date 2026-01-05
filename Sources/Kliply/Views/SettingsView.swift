@@ -16,12 +16,17 @@ struct SettingsView: View {
                     Label("Hotkey", systemImage: "keyboard")
                 }
             
+            ExcludedAppsSettingsView()
+                .tabItem {
+                    Label("Exclusions", systemImage: "lock.circle")
+                }
+            
             AboutView()
                 .tabItem {
                     Label("About", systemImage: "info.circle")
                 }
         }
-        .frame(width: 500, height: 400)
+        .frame(width: 500, height: 500)
     }
 }
 
@@ -142,6 +147,149 @@ struct HotkeySettingsView: View {
     }
 }
 
+struct ExcludedAppsSettingsView: View {
+    @Environment(AppSettings.self) private var settings
+    @State private var newAppName: String = ""
+    @State private var detectedApps: [String] = []
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Excluded Apps")
+                    .font(.headline)
+                
+                Text("Clipboard changes from these apps won't be saved to history")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
+            HStack(spacing: 8) {
+                TextField("App name or bundle ID (e.g., 1Password, com.agilebits.onepassword7)", text: $newAppName)
+                    .textFieldStyle(.roundedBorder)
+                
+                Button(action: addApp) {
+                    Image(systemName: "plus.circle.fill")
+                }
+                .disabled(newAppName.trimmingCharacters(in: .whitespaces).isEmpty)
+                
+                Button(action: loadDetectedApps) {
+                    Image(systemName: "sparkles")
+                }
+                .help("Auto-detect password managers and sensitive apps")
+            }
+            
+            if !detectedApps.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Detected Apps")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.secondary)
+                    
+                    VStack(spacing: 6) {
+                        ForEach(detectedApps, id: \.self) { app in
+                            HStack {
+                                Image(systemName: "lock.shield")
+                                    .foregroundStyle(.orange)
+                                    .font(.caption)
+                                
+                                Text(app)
+                                    .font(.caption)
+                                
+                                Spacer()
+                                
+                                if settings.excludedApps.contains(app) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.green)
+                                        .font(.caption)
+                                } else {
+                                    Button(action: { addDetectedApp(app) }) {
+                                        Image(systemName: "plus.circle")
+                                            .foregroundStyle(.blue)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 6)
+                            .background(Color(nsColor: .controlBackgroundColor).opacity(0.5))
+                            .cornerRadius(4)
+                        }
+                    }
+                }
+                .padding(.vertical, 8)
+            }
+            
+            if settings.excludedApps.isEmpty {
+                VStack(spacing: 12) {
+                    Image(systemName: "list.bullet.indent")
+                        .font(.system(size: 32))
+                        .foregroundStyle(.secondary)
+                    
+                    Text("No excluded apps")
+                        .foregroundStyle(.secondary)
+                    
+                    Text("Add apps to prevent their clipboard changes from being saved")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(nsColor: .controlBackgroundColor).opacity(0.5))
+                .cornerRadius(8)
+            } else {
+                List {
+                    ForEach(settings.excludedApps, id: \.self) { app in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(app)
+                                    .font(.body)
+                                
+                                Text("Clipboard changes ignored")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: { removeApp(app) }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundStyle(.secondary)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+            }
+            
+            Spacer()
+        }
+        .padding()
+        .onAppear {
+            loadDetectedApps()
+        }
+    }
+    
+    private func addApp() {
+        let trimmed = newAppName.trimmingCharacters(in: .whitespaces)
+        if !trimmed.isEmpty {
+            settings.addExcludedApp(trimmed)
+            newAppName = ""
+        }
+    }
+    
+    private func addDetectedApp(_ app: String) {
+        settings.addExcludedApp(app)
+    }
+    
+    private func removeApp(_ app: String) {
+        settings.removeExcludedApp(app)
+    }
+    
+    private func loadDetectedApps() {
+        detectedApps = settings.detectSensitiveApps().filter { !settings.excludedApps.contains($0) }
+    }
+}
+
 struct AboutView: View {
     var body: some View {
         VStack(spacing: 20) {
@@ -153,7 +301,7 @@ struct AboutView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            Text("Version 1.0.5")
+            Text("Version 1.0.6")
                 .foregroundStyle(.secondary)
             
             Divider()

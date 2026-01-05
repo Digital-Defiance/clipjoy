@@ -62,6 +62,11 @@ Accessible via Menu Bar icon:
 - Dark mode support (respect system appearance settings)
 - High contrast mode (if easy to implement)
 - Font size options (if easy to implement)
+- **Excluded Apps** (configurable list):
+  - Allow users to add/remove application bundle identifiers or app names (e.g., "1Password 7", "com.agilebits.onepassword7")
+  - Clipboard changes from excluded apps are never added to history
+  - Useful for password managers, banking apps, and other sensitive applications
+  - Stored in user defaults (persistent across app restarts)
 
 ## UI Components
 
@@ -113,11 +118,29 @@ Accessible via Menu Bar icon:
 - Test permission denial and revocation scenarios
 - Accessibility tests (VoiceOver compatibility - future)
 
+### Excluded Apps Testing
+
+- Unit tests for exclusion list model (add, remove, contains operations)
+- Unit tests for bundle identifier detection and matching
+- Unit tests for app name detection (e.g., "1Password 7", "com.agilebits.onepassword7")
+- Unit tests to verify excluded app clipboard changes are not recorded
+- Unit tests to verify non-excluded app clipboard changes are recorded normally
+- Unit tests for persistence of excluded apps list to user defaults
+- Unit tests for exclusion list retrieval from user defaults after app restart
+- UI tests for adding apps to exclusion list (manual entry, app picker)
+- UI tests for removing apps from exclusion list
+- UI tests for displaying current exclusion list in settings
+- Integration tests for clipboard monitoring with various excluded/included apps
+- Edge case tests: empty exclusion list, duplicate entries, invalid bundle IDs, case sensitivity
+- Performance tests with large exclusion lists (100+ apps)
+- Test clearing app history when changing exclusion settings
+- Test that monitored clipboard history excludes items from previously-included apps when they're added to exclusion list
+- Test exclusion works across app updates/reinstalls with same bundle ID
+
 ## Future Wishlist
 
 - Launch at login option
 - Automatic update mechanism
-- Exclude list for specific apps (requires persistence)
 - VoiceOver and screen reader support
 - Localization for multiple languages
 - Enhanced font size and accessibility options
